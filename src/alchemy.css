@@ -1,0 +1,278 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main {
+    display: flex;
+    gap: 2.5vw;
+}
+
+.closeItem {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    height: auto;
+
+    .close {
+        background-color: rgba(101, 101, 101, 1);
+    }
+}
+.done {
+    background-color: rgba(112, 255, 138, 1);
+}
+
+.open {
+    background-color: rgba(217, 217, 217, 1);
+}
+
+/* поле сбора */
+.collection_field {
+    position: relative;
+    width: 70vw;
+    height: 95vh;
+    background-color: #76CAFF;
+    top: 2.5vh;
+    border-radius: 20px;
+}
+
+#basket {
+    width: 100px;
+    position: absolute;
+    bottom: 0;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    z-index: 0;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+
+#basket:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+#basket:active {
+    transform: scale(0.95);
+}
+
+.item_in_field {
+    width: 140px;
+    height: auto;
+    position: absolute;
+    display: block;
+    text-align: center;
+    align-items: center;
+    border: solid black 1px;
+    border-radius: 20px;
+    background-color: aliceblue;
+
+    :hover {
+        cursor: grab;
+    }
+
+    :active {
+        cursor: grabbing;
+    }
+
+    padding: 3px;
+}
+
+.item_picture {
+    width: 100px;
+    height: 65px;
+    object-fit: contain;
+    /* Сохраняем пропорции */
+    margin: 0 auto;
+}
+
+
+/* Фиксированные размеры для предметов в левой панели */
+.items_list .item {
+    width: 100%;
+    height: 80px;
+    min-width: 60px;
+    /* Минимальная ширина */
+    aspect-ratio: 1/1;
+    /* Соотношение сторон */
+}
+
+.items_list .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Сохраняем пропорции */
+}
+
+/* Фиксированные размеры для предметов на поле */
+.item_in_field {
+    width: 140px !important;
+    min-width: 140px !important;
+    height: auto;
+    position: absolute;
+    display: block;
+    text-align: center;
+    align-items: center;
+    border: solid black 1px;
+    border-radius: 20px;
+    background-color: aliceblue;
+    padding: 3px;
+}
+
+
+.openItem {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    height: auto;
+    width: 100%;
+}
+
+.item img[style*="background-color"] {
+    min-height: 60px;
+    background-color: #ccc;
+    border-radius: 5px;
+}
+
+.items_list {
+    width: 25%;
+    height: 100vh;
+    background-color: rgb(63 63 63);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    overflow-y: auto; /* Добавляем скролл если много элементов */
+}
+
+.openItem {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 колонки */
+    gap: 10px; 
+    width: 100%;
+}
+
+.item {
+    width: 100%;
+    aspect-ratio: 1/1; /* Квадратные ячейки */
+    background-color: rgba(217,217,217,1);
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    transition: all 0.2s;
+}
+
+.item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Сохраняем пропорции */
+    pointer-events: none; /* Чтобы drag работал */
+}
+
+.item.open {
+    background-color: white;
+}
+
+/* Для пустых ячеек или заглушек */
+.item.placeholder {
+    background-color: rgba(101,101,101,0.3);
+    border: 2px dashed #666;
+}
+
+.completion-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    animation: slideIn 0.5s ease;
+}
+
+.completion-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    text-align: center;
+    position: relative;
+    min-width: 300px;
+}
+
+.completion-content p {
+    font-size: 18px;
+    color: #333;
+}
+
+.completion-content button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #999;
+}
+
+.completion-content button:hover {
+    color: #333;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Счетчик элементов */
+.items-counter {
+    margin-top: 20px;
+    padding: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* Placeholder для пустых ячеек */
+.item.placeholder {
+    background-color: rgba(101,101,101,0.3);
+    border: 2px dashed #666;
+    cursor: default;
+}
+
+/* Убеждаемся что элементы не сужаются */
+.item {
+    min-width: 60px;
+    min-height: 60px;
+}
+
+.item_in_field {
+    width: 140px !important;
+    min-width: 140px !important;
+}
+
+.collection_field{
+    position: relative;
+    width: 70vw;
+    height: 95vh;
+    background-color: #76CAFF;
+    top: 2.5vh;
+    border-radius: 20px;
+    background-image: 
+        linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.2) 1px, transparent 1px);
+        background-size: 30px 30px;
+    box-shadow: 0px 0px 40px 5px;
+}

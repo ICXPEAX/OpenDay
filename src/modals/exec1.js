@@ -10,7 +10,7 @@ const TypeText = ({ isOpen, onClose }) => {
     const [timer, setTimer] = useState(35);
     const [timeInterval, setTimeInterval] = useState(null);
     const [buttonText, setButtonText] = useState("Старт");
-    const { completeQuest } = useQuest();
+    const { updateQuestStatus } = useQuest();
 
     const allText = [
         ["1) Включите IP forwarding.", "sysctl -w net.ipv4.ip_forward=1"],
@@ -47,7 +47,7 @@ const TypeText = ({ isOpen, onClose }) => {
                 if (currentTaskIndex === allText.length - 1) {
                     setResult("Ура! Все задания выполнены! Пакет нашёл новый путь и продолжает движение");
                     setButtonText("Задание выполнено!");
-                    completeQuest('typeText');
+                    updateQuestStatus('typeText', true);
                 } else {
                     setResult("Отлично! Переходим к следующему заданию");
                     setButtonText("Следующее задание");
@@ -57,7 +57,7 @@ const TypeText = ({ isOpen, onClose }) => {
                 resetToBeginning();
             }
         }
-    }, [timer, timeInterval, taskStarted, text, textToType, currentTaskIndex, allText.length, completeQuest]);
+    }, [timer, timeInterval, taskStarted, text, textToType, currentTaskIndex, allText.length, updateQuestStatus]);
 
     const resetToBeginning = useCallback(() => {
         setCurrentTaskIndex(0);
@@ -109,7 +109,7 @@ const TypeText = ({ isOpen, onClose }) => {
                 setResult("Ура! Все задания выполнены! Пакет нашёл новый путь и продолжает движение");
                 setButtonText("Задание выполнено!");
                 setTaskStarted(false);
-                completeQuest('typeText');
+                updateQuestStatus('typeText', true);
                 if (timeInterval) {
                     clearInterval(timeInterval);
                     setTimeInterval(null);
@@ -129,7 +129,7 @@ const TypeText = ({ isOpen, onClose }) => {
         } else {
             setResult("Неверная команда. Попробуйте снова!");
         }
-    }, [taskStarted, text, textToType, currentTaskIndex, allText.length, timeInterval, completeQuest]);
+    }, [taskStarted, text, textToType, currentTaskIndex, allText.length, timeInterval, updateQuestStatus]);
 
     const handleClose = () => {
         if (timeInterval) {

@@ -839,7 +839,7 @@ canvas {
 .quest-marker {
   position: absolute;
   transform: translate(-50%, -50%);
-  z-index: 2000;
+  z-index: 2;
   transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   pointer-events: none;
   will-change: top, left;
@@ -948,7 +948,7 @@ canvas {
   border: 3px solid gold !important;
   box-shadow: 0 0 20px gold !important;
   transform: translate(-50%, -50%) scale(1.1);
-  z-index: 2500 !important;
+  z-index: 2 !important;
   opacity: 1 !important;
 }
 

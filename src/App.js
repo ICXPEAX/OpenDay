@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { QuestProvider, useQuest } from './context/QuestContext';
 import QuestionModal from './modals/question';
 import TypeText from './modals/exec1';
-import Boss from './modals/boss';
+import Alchemy from './modals/exec8';
 import FindSecretModal from './modals/exec2';
 import CenterDivModal from './modals/exec3';
 import FindBug from './modals/exec4';
@@ -337,7 +337,7 @@ function MapWithQuest() {
         {completedQuests.boss && <span className="button-check">✓</span>}
       </button>
 
-      <Boss
+      <Alchemy
         isOpen={isBossOpen}
         onClose={() => setIsBossOpen(false)}
         onComplete={() => updateQuestStatus('boss', true)}

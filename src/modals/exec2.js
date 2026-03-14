@@ -24,7 +24,7 @@ const FindSecretModal = ({ isOpen, onClose }) => {
     });
     const [attempts, setAttempts] = useState(0);
     const [secretId, setSecretId] = useState(null);
-    const { completeQuest } = useQuest();
+    const { updateQuestStatus } = useQuest();
 
     const initializeElements = useCallback(() => {
         const newElements = [];
@@ -97,10 +97,10 @@ const FindSecretModal = ({ isOpen, onClose }) => {
 
             if (isOnTop) {
                 setFound(true);
-                completeQuest('findSecret');
+                updateQuestStatus('findSecret', true);
             }
         }
-    }, [cssProperties.zIndex, secretId, elements, found, completeQuest]);
+    }, [cssProperties.zIndex, secretId, elements, found, updateQuestStatus]);
 
     const handleElementClick = useCallback((id) => {
         setSelectedElement(id);

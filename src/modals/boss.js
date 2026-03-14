@@ -8,7 +8,7 @@ const Boss = ({ isOpen, onClose }) => {
     const [start, setStart] = useState(false);
     const [pc, setPc] = useState([]);
     const [shots, setShots] = useState([]);
-    const { completeQuest } = useQuest();
+    const { updateQuestStatus } = useQuest();
 
     const canvasRef = useRef(null);
     const consoleRef = useRef(null);
@@ -26,7 +26,6 @@ const Boss = ({ isOpen, onClose }) => {
     const drawField = useCallback((ctx) => {
         ctx.clearRect(0, 0, fieldSize * cellSize, fieldSize * cellSize);
 
-        // Рисуем сетку
         for (let i = 0; i < fieldSize; i++) {
             for (let j = 0; j < fieldSize; j++) {
                 ctx.strokeStyle = "#333";
@@ -61,7 +60,7 @@ const Boss = ({ isOpen, onClose }) => {
                 ctx.lineWidth = 2;
                 ctx.strokeRect(cellX + 2, cellY + 2, cellSize - 4, cellSize - 4);
             } else {
-                // Промах - синяя точка
+                // Промах
                 ctx.fillStyle = "#00f";
                 ctx.beginPath();
                 ctx.arc(cellX + cellSize / 2, cellY + cellSize / 2, 8, 0, 2 * Math.PI);
@@ -103,7 +102,6 @@ const Boss = ({ isOpen, onClose }) => {
             log(`В клетку [${row},${col}] уже стреляли!`);
             return;
         }
-
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -119,23 +117,24 @@ const Boss = ({ isOpen, onClose }) => {
             const newHits = hit + 1;
             setHits(newHits);
 
-            log(`🔥 ПОПАДАНИЕ в [${row},${col}]! Осталось: ${5 - newHits}`);
+            log(`ПОПАДАНИЕ в [${row},${col}]! Осталось: ${5 - newHits}`);
 
             const newPcs = [...pc];
             newPcs.splice(pcIp, 1);
             setPc(newPcs);
 
             if (newHits === 5) {
-                setResult("🎉 ПОБЕДА! Все лазейки злоумышленника уничтожены! 🎉");
-                log("🎉 ПОБЕДА! Все уязвимости устранены! Задание выполнено! 🎉");
-                completeQuest('boss');
+                setResult("ПОБЕДА! Все лазейки злоумышленника уничтожены!");
+                log("ПОБЕДА! Все уязвимости устранены!");
+                updateQuestStatus('boss');
             }
         } else {
-            log(`💧 ПРОМАХ в [${row},${col}]`);
+            log(`ПРОМАХ в [${row},${col}]`);
         }
 
         drawField(ctx);
-    }, [start, pc, hit, shots, drawField, log, fieldSize, completeQuest]);
+
+    }, [start, pc, hit, shots, drawField, log, fieldSize]);
 
     const initGame = useCallback(() => {
         const canvas = canvasRef.current;
@@ -143,6 +142,7 @@ const Boss = ({ isOpen, onClose }) => {
 
         const ctx = canvas.getContext('2d');
         const newPc = generatePc();
+
 
         setPc(newPc);
         setHits(0);
@@ -155,17 +155,17 @@ const Boss = ({ isOpen, onClose }) => {
             consoleRef.current.value = '';
         }
 
-        log('🚀 Игра началась! Используйте: shoot(ряд, колонка) для выстрела');
-        log('📌 Координаты: ряд от 0 до 7, колонка от 0 до 7');
-        log('🎯 Всего целей: 5');
+        log('Используйте: shoot(ряд, колонка) для выстрела');
+        log('Координаты: ряд от 0 до 7, колонка от 0 до 7');
 
     }, [generatePc, drawField, log]);
 
+    // Эффект для запуска игры
     useEffect(() => {
         if (start) {
             initGame();
         }
-    }, [start, initGame]);
+    }, [start]);
 
     useEffect(() => {
         if (start && hit > 0) {
@@ -175,15 +175,9 @@ const Boss = ({ isOpen, onClose }) => {
 
     useEffect(() => {
         window.shoot = shoot;
-        window.help = () => {
-            log('Доступные команды:');
-            log('  shoot(ряд, колонка) - выстрел по координатам');
-            log('  help() - показать эту справку');
-        };
 
         return () => {
             delete window.shoot;
-            delete window.help;
         };
     }, [shoot]);
 
@@ -196,6 +190,7 @@ const Boss = ({ isOpen, onClose }) => {
 
         delete window.shoot;
         delete window.help;
+        delete window.clear;
 
         onClose();
     };
@@ -208,25 +203,23 @@ const Boss = ({ isOpen, onClose }) => {
                 <button className="modal-close" onClick={handleClose}>×</button>
 
                 <h2 className="modal-title">
-                    👾 Битва с злоумышленником! 👾
+                    Внимание! Злоумышленник пытается перехватить пакет!
                 </h2>
 
                 {!start && (
                     <div className="modal-question">
-                        <p>⚠️ Внимание! Злоумышленник пытается перехватить пакет! ⚠️</p>
                         <p>Сразите злоумышленника в честном бою!</p>
                         <p>Враг спрятал 5 своих IP-адресов (1-клеточные компьютеры) на поле 8x8.</p>
                         <p>Закрой дыры в системе через консоль разработчика!</p>
                         <p><strong>Инструкция:</strong> открой консоль (F12) и используй команду <code>shoot(ряд, колонка)</code></p>
                         <p>Например: <code>shoot(3, 4)</code></p>
-                        <p>Для справки введите <code>help()</code></p>
                     </div>
                 )}
 
                 {start && (
                     <>
                         <div className="game-info" id="info">
-                            🎯 Попаданий: {hit} / 5
+                            Попаданий: {hit} / 5
                         </div>
 
                         <canvas
@@ -235,10 +228,9 @@ const Boss = ({ isOpen, onClose }) => {
                             width={fieldSize * cellSize}
                             height={fieldSize * cellSize}
                             style={{
-                                border: '2px solid #0f0',
-                                margin: '10px auto',
-                                display: 'block',
-                                background: '#111'
+                                border: '2px solid #444',
+                                margin: '10px 0',
+                                display: 'block'
                             }}
                         />
 
@@ -247,7 +239,7 @@ const Boss = ({ isOpen, onClose }) => {
                             id="console"
                             placeholder="Вывод логов..."
                             readOnly
-                            rows={6}
+                            rows={5}
                             style={{
                                 width: '100%',
                                 backgroundColor: '#1e1e1e',
@@ -255,14 +247,14 @@ const Boss = ({ isOpen, onClose }) => {
                                 fontFamily: 'monospace',
                                 padding: '10px',
                                 borderRadius: '4px',
-                                border: '1px solid #0f0',
+                                border: '1px solid #444',
                                 marginTop: '10px'
                             }}
                         />
                     </>
                 )}
 
-                <div className="info-message" style={{ marginTop: '10px', fontWeight: 'bold' }}>
+                <div className="info-message">
                     {result}
                 </div>
 
@@ -271,7 +263,7 @@ const Boss = ({ isOpen, onClose }) => {
                         className="submit-button"
                         onClick={() => setStart(true)}
                     >
-                        🚀 Начать игру
+                        Начать игру
                     </button>
                 )}
             </div>

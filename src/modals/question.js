@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import '../App.css';
 import { useQuest } from '../context/QuestContext';
-
 const QuestionModal = ({ isOpen, onClose, question, options, correctAnswer }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showError, setShowError] = useState(false);
-  const { updateQuestStatus } = useQuest(); // ИЗМЕНЕНО: completeQuest → updateQuestStatus
+  const { updateQuestStatus } = useQuest();
 
   if (!isOpen) return null;
 
@@ -21,8 +20,7 @@ const QuestionModal = ({ isOpen, onClose, question, options, correctAnswer }) =>
     }
 
     if (selectedOption === correctAnswer) {
-      console.log('✅ Правильный ответ на первый вопрос');
-      updateQuestStatus('question1', true); // ИЗМЕНЕНО: completeQuest → updateQuestStatus
+      updateQuestStatus('question1', true);
       setSelectedOption(null);
       setShowError(false);
       onClose();

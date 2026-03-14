@@ -3,33 +3,33 @@ import '../App.css';
 import { useQuest } from '../context/QuestContext';
 
 const FindBug2 = ({ isOpen, onClose }) => {
-    // ИЗНАЧАЛЬНО КОД С ОШИБКОЙ (без Number())
     const [code, setCode] = useState(`function calculateSum(a, b) {
-    return a + b;
+  return a + b;
 }
 
-const result = calculateSum(6, '10');
-console.log(result);`);
-    const [outText, setOutText] = useState('');
+return(calculateSum(6, '10')); `);
+    const [outText, setOutText] = useState(610);
     const [success, setSuccess] = useState(false);
-    const { completeQuest } = useQuest();
+        const { updateQuestStatus } = useQuest();
 
     const executeCode = useCallback((codeString) => {
         try {
-            const originalLog = console.log;
-            let consoleOutput = '';
+            const func = new Function(`
+                ${codeString}
+                // Возвращаем результат последнего выражения
+                let result;
+                const lines = \`${codeString}\`.split('\\n').filter(line => line.trim() && !line.includes('if') && !line.includes('else'));
+                const lastLine = lines[lines.length - 1];
+                try {
+                    result = eval(lastLine);
+                } catch(e) {
+                    result = '';
+                }
+                return result;
+            `);
 
-            console.log = (...args) => {
-                const message = args.join(' ');
-                consoleOutput += message + '\n';
-                originalLog(...args);
-            };
-
-            // eslint-disable-next-line no-eval
-            eval(codeString);
-
-            console.log = originalLog;
-            return consoleOutput.trim();
+            const result = func();
+            return result || '';
         } catch (error) {
             return `Ошибка: ${error.message}`;
         }
@@ -39,79 +39,54 @@ console.log(result);`);
         try {
             const result = executeCode(code);
             setOutText(result);
-            
-            console.log('🔍 FindBug2 - Результат выполнения кода:', result);
-            
-            // Проверяем, что результат равен 16
-            if (result === '16' || result.includes('16')) {
-                console.log('✅ FindBug2 - Условие выполнено! Вызываем completeQuest("findBug2")');
-                setSuccess(true);
-                completeQuest('findBug2');
-            } else {
-                console.log('❌ FindBug2 - Неправильный вывод, ждем правильного решения');
-                setSuccess(false);
+            if (outText === 16) {
+                setSuccess(true)
+                updateQuestStatus("FindBug2", true)
             }
         } catch (error) {
-            console.log('💥 FindBug2 - Ошибка выполнения:', error);
             setOutText(`Ошибка: ${error.message}`);
             setSuccess(false);
         }
-    }, [code, executeCode, completeQuest]);
+    }, [code, outText]);
 
     if (!isOpen) return null;
 
     const handleClose = () => {
-        console.log('🚪 FindBug2 - Закрытие модалки');
-        setSuccess(false);
+        handleReset()
+        setSuccess(false)
         onClose();
     };
 
     const handleReset = () => {
-        console.log('🔄 FindBug2 - Сброс кода к исходному состоянию');
         setCode(`function calculateSum(a, b) {
-    return a + b;
+  return a + b;
 }
 
-const result = calculateSum(6, '10');
-console.log(result);`);
-    };
-
-    // Правильное решение
-    const correctSolution = () => {
-        console.log('📝 FindBug2 - Установка правильного решения');
-        setCode(`function calculateSum(a, b) {
-    // Преобразуем строку в число, если нужно
-    return Number(a) + Number(b);
-}
-
-const result = calculateSum(6, '10');
-console.log(result);`);
+return(calculateSum(6, '10')); `)
+        const result = executeCode(code);
+        setOutText(result);
     };
 
     return (
-        <div className="modal-overlay">
+        <div className="modal-overlay" >
             <div className="console-content">
                 <button className="modal-close" onClick={handleClose}>×</button>
 
-                <h2 className="modal-title">Сумма чисел</h2>
+                <h2 className="modal-title">Задание</h2>
 
                 <div className="modal-question" onCopy={(e) => e.preventDefault()}>
                     <p>Необходимо посчитать длину пакета в байтах, чтобы рассчитать примерное время передачи.</p>
-                    <p>Вам представлен код с ошибкой. Ожидается что вернется число <strong>16</strong>, но сейчас выводится 610.</p>
-                    <p><strong>Подсказка:</strong> Обратите внимание на тип данных второго аргумента - это строка! Используйте <code>Number()</code> для преобразования.</p>
-                    <p><strong>Текущий вывод:</strong> "{outText}"</p>
-                    {success && <p style={{color: 'green', fontWeight: 'bold'}}>✅ Задание выполнено!</p>}
+                    <p>Вам представлен код с ошибкой. Ожидается что вернется число 16, но по какой-то причине выводится 610.</p>
                 </div>
 
                 <div className='console-line'>
                     <section>
-                        <p className='console-label'>{success ? "✅ Правильный код" : "❌ Неправильный код"}</p>
+                        <p className='console-label'>{success ? "Правильный код" : "Неправильный код"}</p>
                         <textarea
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
-                            rows={8}
+                            rows={7}
                             className='consoleW'
-                            style={{ fontFamily: 'monospace' }}
                         />
                     </section>
 
@@ -119,34 +94,23 @@ console.log(result);`);
                         <p className='console-label'>Консоль вывода</p>
                         <textarea
                             value={outText}
-                            placeholder="Вывод программы..."
+                            placeholder="Вывод логов..."
                             readOnly
-                            rows={8}
+                            rows={5}
                             className='consoleW'
                             style={{
                                 backgroundColor: '#1e1e1e',
-                                color: '#0f0',
-                                fontFamily: 'monospace'
+                                color: '#0f0'
                             }}
                         />
                     </section>
                 </div>
-                
-                {/* Кнопка для показа правильного решения */}
-                <button
-                    className="submit-button"
-                    onClick={correctSolution}
-                    style={{ marginBottom: '10px', backgroundColor: '#17a2b8' }}
-                >
-                    📝 Показать правильное решение
-                </button>
-
-                <button
+                {<button
                     className="submit-button"
                     onClick={success ? handleClose : handleReset}
                 >
-                    {success ? "✅ Отлично! Ошибка исправлена!" : "🔄 Сбросить изменения"}
-                </button>
+                    {success ? "Отлично! Ошибка исправлена!" : "Сбросить изменения"}
+                </button>}
             </div>
         </div>
     );

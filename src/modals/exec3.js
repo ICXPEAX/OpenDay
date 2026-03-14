@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import '../App.css';
 import { useQuest } from '../context/QuestContext';
 
@@ -10,7 +10,7 @@ const CenterDivModal = ({ isOpen, onClose }) => {
     const [showOffer, setShowOffer] = useState(false);
     const [attempts, setAttempts] = useState(0);
     const [hint, setHint] = useState('');
-    const { completeQuest } = useQuest();
+    const { updateQuestStatus } = useQuest();
 
     const justifyOptions = [
         { value: 'flex-start', label: 'Начало', icon: '⬅️' },
@@ -41,41 +41,42 @@ const CenterDivModal = ({ isOpen, onClose }) => {
 
         if (isPerfectlyCentered && !isCentered) {
             setIsCentered(true);
-            setHint('🎉 Отлично! Блок в центре! Кривой блок на странице - больше не проблема для вас!');
+            setHint('Кривой блок на странице - самая жиза для любого фронтенд-разработчика');
+
 
             setTimeout(() => {
                 setShowOffer(true);
-                completeQuest('centerDiv');
+                updateQuestStatus('centerDiv', true);
             }, 500);
         } else if (!isPerfectlyCentered && isCentered) {
             setIsCentered(false);
             setShowOffer(false);
             setHint('Центрирование сбито... Попробуйте снова!');
         }
-    }, [justifyContent, alignItems, flexDirection, isCentered, completeQuest]);
+    }, [justifyContent, alignItems, flexDirection, isCentered]);
 
-    const handleJustifyChange = useCallback((value) => {
+    const handleJustifyChange = (value) => {
         if (!showOffer) {
             setJustifyContent(value);
             setAttempts(prev => prev + 1);
         }
-    }, [showOffer]);
+    };
 
-    const handleAlignChange = useCallback((value) => {
+    const handleAlignChange = (value) => {
         if (!showOffer) {
             setAlignItems(value);
             setAttempts(prev => prev + 1);
         }
-    }, [showOffer]);
+    };
 
-    const handleDirectionChange = useCallback((value) => {
+    const handleDirectionChange = (value) => {
         if (!showOffer) {
             setFlexDirection(value);
             setAttempts(prev => prev + 1);
         }
-    }, [showOffer]);
+    };
 
-    const resetGame = useCallback(() => {
+    const resetGame = () => {
         setJustifyContent('flex-start');
         setAlignItems('flex-start');
         setFlexDirection('row');
@@ -83,7 +84,7 @@ const CenterDivModal = ({ isOpen, onClose }) => {
         setShowOffer(false);
         setAttempts(0);
         setHint('');
-    }, []);
+    };
 
     if (!isOpen) return null;
 
@@ -92,13 +93,13 @@ const CenterDivModal = ({ isOpen, onClose }) => {
             <div className="modal-content center-div-modal" onClick={(e) => e.stopPropagation()}>
                 <button className="modal-close" onClick={onClose}>×</button>
 
-                <h2 className="modal-title">Центрирование элемента</h2>
+                <h2 className="modal-title">Задание</h2>
 
                 <div className="game-container">
                     <div className="modal-question">
                         <p>К следующей точке ведёт куча проводов. Помоги сетевому пакету протиснуться к центральному проводу.</p>
                         <p>Используй CSS Flexbox, чтобы поместить блок в центр контейнера!</p>
-                        <p><strong>Цель:</strong> <code>justify-content: center, align-items: center, flex-direction: row</code></p>
+                        <p> Цель: <i>justify-content: center, align-items: center</i></p>
                     </div>
 
                     <div className="game-play-area">
@@ -120,21 +121,18 @@ const CenterDivModal = ({ isOpen, onClose }) => {
                                     flexDirection: flexDirection,
                                     justifyContent: justifyContent,
                                     alignItems: alignItems,
-                                    minHeight: '300px',
-                                    height: '300px'
+                                    minHeight: '300px'
                                 }}
                             >
                                 <div className={`floating-block ${showOffer ? 'transforming' : ''}`}>
                                     {!showOffer ? (
                                         <>
                                             <span className="block-icon">📦</span>
-                                            <span className="block-text">Пакет</span>
                                         </>
                                     ) : (
                                         <div className="offer-content">
-                                            <span className="offer-icon">✅</span>
-                                            <h3>Успех!</h3>
-                                            <p>Пакет успешно найден!</p>
+                                            <span className="offer-icon">Успех!</span>
+
                                             <button className="accept-offer" onClick={onClose}>
                                                 Вёрстка — это просто, если знать правила
                                             </button>
@@ -239,12 +237,12 @@ const CenterDivModal = ({ isOpen, onClose }) => {
                                                 (flexDirection === 'row' ? 33.34 : 0)
                                                 }%`
                                         }}
-                                    />
+                                    ></div>
                                 </div>
                                 <div className="progress-stats">
                                     <span>Попыток: {attempts}</span>
                                     <span className={`status ${isCentered ? 'success' : ''}`}>
-                                        {isCentered ? '✅ Центрировано!' : '⏳ В процессе'}
+                                        {isCentered ? 'Центрировано!' : '⏳ В процессе'}
                                     </span>
                                 </div>
                             </div>
