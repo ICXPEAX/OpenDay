@@ -31,19 +31,19 @@ function MapWithQuest() {
   const [currentPosition, setCurrentPosition] = useState(0); // 0 - стартовая позиция
 
   // Начальная точка А
-  const startPoint = useMemo(() => ({ top: '240px', left: '200px' }), []);
+  const startPoint = useMemo(() => ({ top: '75px', left: '1000px' }), []);
   
   // Позиции кнопок на карте
   const buttonPositions = useMemo(() => [
-    { top: '255px', left: '1051px' },  // question1 (индекс 0)
-    { top: '390px', left: '1051px' },  // typeText (индекс 1)
-    { top: '520px', left: '1051px' },  // findSecret (индекс 2)
-    { top: '650px', left: '1051px' },  // centerDiv (индекс 3)
-    { top: '785px', left: '970px' },   // boss (индекс 4)
-    { top: '340px', left: '900px' },   // findBug1 (индекс 5)
-    { top: '460px', left: '1155px' },   // findBug2 (индекс 6)
-    { top: '590px', left: '1205px' },   // findBug3 (индекс 7)
-    { top: '810px', left: '1130px' }    // findBug4 (индекс 8)
+    { top: '295px', left: '1055px' },  // question1 (индекс 0)
+    { top: '448px', left: '1055px' },  // typeText (индекс 1)
+    { top: '595px', left: '1055px' },  // findSecret (индекс 2)
+    { top: '745px', left: '1055px' },  // centerDiv (индекс 3)
+    { top: '890px', left: '960px' },   // boss (индекс 4)
+    { top: '390px', left: '888px' },   // findBug1 (индекс 5)
+    { top: '520px', left: '1175px' },   // findBug2 (индекс 6)
+    { top: '665px', left: '1225px' },   // findBug3 (индекс 7)
+    { top: '927px', left: '1150px' }    // findBug4 (индекс 8)
   ], []);
 
   // Определяем пути

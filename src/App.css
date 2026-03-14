@@ -1,23 +1,4 @@
-/* Map.css */
-
-.map-container {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.Map {
-  background-image: url('./assets/map.svg');
-  height: 100vh;
-  width: 100%;
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* ========== ИНСТРУКЦИИ ========== */
+/* App.css - оригинальная версия */
 
 .instructions {
   position: fixed;
@@ -36,394 +17,7 @@
   z-index: 500;
 }
 
-@keyframes glare {
-  0% {
-    box-shadow: 0 0 0 0 rgba(126, 241, 239, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(126, 241, 239, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(126, 241, 239, 0);
-  }
-}
-
-/* ========== МАРКЕР ========== */
-
-.quest-marker {
-  position: absolute;
-  z-index: 2000;
-  transition: all 0.3s ease;
-  pointer-events: none;
-  will-change: left, top;
-  left: 0;
-  top: 0;
-}
-
-.marker-square {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: 3px solid gold;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: float 3s ease-in-out infinite;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  transform: translate(-50%, -50%);
-}
-
-.marker-text {
-  font-size: 30px;
-  animation: bounce 2s ease-in-out infinite;
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0) translate(-50%, -50%);
-  }
-  50% {
-    transform: translateY(-10px) translate(-50%, -50%);
-  }
-}
-
-.quest-marker.boss-position .marker-square {
-  border-color: red;
-  background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
-  animation: bossPulse 1s infinite;
-}
-
-@keyframes bossPulse {
-  0% {
-    transform: scale(1) translate(-50%, -50%);
-    border-color: red;
-    box-shadow: 0 0 20px red;
-  }
-  50% {
-    transform: scale(1.2) translate(-50%, -50%);
-    border-color: darkred;
-    box-shadow: 0 0 40px darkred;
-  }
-  100% {
-    transform: scale(1) translate(-50%, -50%);
-    border-color: red;
-    box-shadow: 0 0 20px red;
-  }
-}
-
-/* ========== КНОПКИ ЗАДАНИЙ ========== */
-
-.bt-1, .bt-2, .bt-3, .bt-4, .bt-5, .bt-6, .bt-7, .bt-8, .bt-9 {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-size: 20px;
-  font-weight: bold;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: -1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  transform: translate(-50%, -50%);
-}
-
-.bt-1:hover:not(.disabled):not(.completed),
-.bt-2:hover:not(.disabled):not(.completed),
-.bt-3:hover:not(.disabled):not(.completed),
-.bt-4:hover:not(.disabled):not(.completed),
-.bt-5:hover:not(.disabled):not(.completed),
-.bt-6:hover:not(.disabled):not(.completed),
-.bt-7:hover:not(.disabled):not(.completed),
-.bt-8:hover:not(.disabled):not(.completed),
-.bt-9:hover:not(.disabled):not(.completed) {
-  transform: translate(-50%, -50%) scale(1.2);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-  opacity: 0;
-}
-
-.bt-1.completed, .bt-2.completed, .bt-3.completed,
-.bt-4.completed, .bt-5.completed, .bt-6.completed,
-.bt-7.completed, .bt-8.completed, .bt-9.completed {
-  background: linear-gradient(135deg, #28a745 0%, #218838 100%);
-  cursor: default;
-  opacity: 0.8;
-}
-
-.current-target {
-  animation: targetPulse 1.5s infinite;
-  border: 3px solid gold !important;
-  box-shadow: 0 0 20px gold !important;
-  transform: translate(-50%, -50%) scale(1.1);
-  z-index: 2500 !important;
-  opacity: 1 !important;
-}
-
-@keyframes targetPulse {
-  0% {
-    box-shadow: 0 0 0 0 gold;
-  }
-  70% {
-    box-shadow: 0 0 20px 10px gold;
-  }
-  100% {
-    box-shadow: 0 0 0 0 gold;
-  }
-}
-
-.bt-1.disabled, .bt-2.disabled, .bt-3.disabled,
-.bt-4.disabled, .bt-5.disabled, .bt-6.disabled,
-.bt-7.disabled, .bt-8.disabled, .bt-9.disabled {
-  opacity: 0;
-  cursor: not-allowed;
-  pointer-events: none;
-  filter: grayscale(100%);
-}
-
-.button-check {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  width: 25px;
-  height: 25px;
-  background-color: gold;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: green;
-  font-weight: bold;
-  font-size: 16px;
-  animation: checkmarkAppear 0.3s ease-out;
-  border: 2px solid white;
-  z-index: 1600;
-}
-
-@keyframes checkmarkAppear {
-  0% {
-    transform: scale(0) rotate(-180deg);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1) rotate(0);
-    opacity: 1;
-  }
-}
-
-/* ========== СТАРТОВАЯ КНОПКА ========== */
-
-.start-btn {
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-  border: 4px solid gold;
-  color: white;
-  font-size: 40px;
-  font-weight: bold;
-  cursor: pointer;
-  animation: startPulse 2s infinite;
-  z-index: 1800;
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translate(-50%, -50%);
-}
-
-.start-btn:hover {
-  transform: translate(-50%, -50%) scale(1.1);
-  box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
-}
-
-@keyframes startPulse {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.8;
-  }
-}
-
-/* ========== ВЫБОР ПУТИ ========== */
-
-.path-selection-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 3000;
-}
-
-.path-selection-modal {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  padding: 40px;
-  border-radius: 20px;
-  max-width: 800px;
-  width: 90%;
-  color: white;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  border: 2px solid gold;
-}
-
-.path-selection-modal h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
-  color: gold;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
-
-.path-buttons {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 30px;
-}
-
-.path-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  cursor: pointer;
-  transition: all 0.3s;
-  color: white;
-  backdrop-filter: blur(10px);
-}
-
-.path-btn:hover {
-  transform: translateY(-10px);
-  border-color: gold;
-  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.path-btn.path1:hover {
-  border-color: #ff6b6b;
-}
-
-.path-btn.path2:hover {
-  border-color: #4ecdc4;
-}
-
-.path-icon {
-  font-size: 64px;
-  margin-bottom: 20px;
-}
-
-.path-info h3 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: gold;
-}
-
-.path-info p {
-  margin: 5px 0;
-  font-size: 16px;
-}
-
-.path-info small {
-  display: block;
-  margin-top: 10px;
-  color: #aaa;
-  font-style: italic;
-}
-
-.reset-path-btn {
-  width: 100%;
-  padding: 15px;
-  background: rgba(220, 53, 69, 0.8);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: all 0.3s;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.reset-path-btn:hover {
-  background: rgb(220, 53, 69);
-  transform: scale(1.02);
-}
-
-/* ========== ИНФОРМАЦИЯ О ПУТИ ========== */
-
-.path-info-display {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 15px 25px;
-  background: rgba(0, 0, 0, 0.8);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  border: 1px solid gold;
-  z-index: 1000;
-}
-
-.path-info-display p {
-  margin: 0;
-  color: gold;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.reset-path-small {
-  padding: 8px 15px;
-  background: rgba(220, 53, 69, 0.8);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.3s;
-  font-weight: bold;
-}
-
-.reset-path-small:hover {
-  background: rgb(220, 53, 69);
-  transform: scale(1.05);
-}
-
-/* ========== МОДАЛЬНЫЕ ОКНА ========== */
-
+/* QuizModal.css */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -434,7 +28,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 4000;
+  z-index: 1000;
 }
 
 .modal-content {
@@ -520,6 +114,25 @@
   flex: 1;
 }
 
+.error-message {
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  color: #721c24;
+  font-size: 14px;
+}
+
+.info-message {
+  padding: 2px;
+  text-align: center;
+  border: 1px solid #7bade3;
+  border-radius: 2px;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .submit-button {
   width: 100%;
   padding: 14px;
@@ -538,16 +151,1060 @@
   background-color: #0056b3;
 }
 
-/* ========== АДАПТАЦИЯ ПОД МОБИЛЬНЫЕ ========== */
+.submit-button:active {
+  transform: translateY(1px);
+}
+
+canvas {
+  border: 2px solid #0f0;
+  margin: 10px;
+  background: #111;
+}
+
+.console-line {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.console-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 1000px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.consoleW {
+  padding: 10px;
+  width: 30vw;
+  height: 150px;
+  font-family: monospace;
+  border: 1px solid #0f0;
+  border-radius: 4px;
+}
+
+.console-label {
+  text-align: center;
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#console {
+  width: 400px;
+  height: 200px;
+  font-family: monospace;
+  background: #000;
+  color: #0f0;
+  border: 1px solid #0f0;
+}
+
+#tasks {
+  margin: 20px;
+}
+
+.find-secret-modal {
+  max-width: 1200px !important;
+  width: 95% !important;
+}
+
+.game-container {
+  padding: 20px;
+}
+
+.game-play-area {
+  display: flex;
+  gap: 20px;
+  min-height: 450px;
+}
+
+.elements-container {
+  flex: 2;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  border: 2px solid #444;
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.system-element {
+  padding: 10px;
+  background-color: #2d2d2d;
+  border: 2px solid #555;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s ease;
+  user-select: none;
+  min-width: 100px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.system-element:hover {
+  border-color: #007bff;
+  transform: scale(1.05) !important;
+}
+
+.system-element.selected {
+  border-color: #ffc107;
+  box-shadow: 0 0 15px #ffc107;
+}
+
+.system-element.found {
+  border-color: #28a745;
+  animation: glare 1s infinite;
+}
+
+@keyframes glare {
+  0% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  }
+}
+
+.element-icon {
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+.element-label {
+  font-size: 11px;
+  color: #aaa;
+  white-space: nowrap;
+}
+
+.element-zindex {
+  font-size: 10px;
+  color: #666;
+  margin-top: 3px;
+}
+
+.control-panel {
+  flex: 1;
+  background-color: #2d2d2d;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+
+.control-panel h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #ffc107;
+  text-align: center;
+}
+
+.control-group {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #363636;
+  border-radius: 5px;
+}
+
+.control-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #aaa;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.button-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.button-group button {
+  padding: 5px 10px;
+  background-color: #444;
+  border: 1px solid #555;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.button-group button:hover {
+  background-color: #555;
+}
+
+.button-group span {
+  min-width: 30px;
+  text-align: center;
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.control-group input[type="range"] {
+  width: calc(100% - 40px);
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.control-group input[type="range"]+span {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.reset-element-btn {
+  width: 100%;
+  padding: 8px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.reset-element-btn:hover {
+  background-color: #c82333;
+}
+
+.game-footer {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #2d2d2d;
+  border-radius: 8px;
+}
+
+.hint-message {
+  padding: 10px;
+  background-color: #363636;
+  border-left: 4px solid #ffc107;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  color: #ddd;
+}
+
+.hint-message.success {
+  border-left-color: #28a745;
+  background-color: #1e3a2a;
+  color: #fff;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #aaa;
+}
+
+.victory {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.game-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.reset-btn,
+.celebrate-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: bold;
+}
+
+.reset-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.reset-btn:hover {
+  background-color: #5a6268;
+}
 
 @media (max-width: 768px) {
-  .instructions {
-    width: 80vw;
-    left: 10vw;
-    padding: 15px;
-    font-size: 14px;
+  .game-play-area {
+    flex-direction: column;
   }
 
+  .control-panel {
+    margin-top: 20px;
+  }
+}
+
+.center-div-modal {
+  max-width: 1100px !important;
+  width: 95% !important;
+}
+
+.playground-container {
+  flex: 1.5;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  border: 2px solid #444;
+  overflow: hidden;
+}
+
+.playground-header span:first-child {
+  color: #ffc107;
+  font-weight: bold;
+  font-size: 18px;
+  display: block;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.flex-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #4caf50;
+  background-color: #1e1e1e;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.flex-info span {
+  background-color: #2d2d2d;
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid #444;
+}
+
+.flex-playground {
+  padding: 20px;
+  background-color: #2a2a2a;
+  min-height: 300px;
+  transition: all 0.3s ease;
+  position: relative;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.flex-playground.centered {
+  background-color: #1a3a1a;
+  box-shadow: inset 0 0 30px rgba(76, 175, 80, 0.3);
+}
+
+.floating-block {
+  padding: 30px;
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  min-width: 200px;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.floating-block.transforming {
+  animation: transformBlock 1s forwards;
+}
+
+@keyframes transformBlock {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 20px 50px rgba(255, 215, 0, 0.5);
+  }
+  100% {
+    transform: scale(1.1);
+    border: 3px solid gold;
+  }
+}
+
+.block-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.block-text {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.offer-content {
+  text-align: center;
+}
+
+.offer-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.offer-content h3 {
+  color: gold;
+  font-size: 24px;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.offer-content p {
+  margin: 5px 0;
+  color: #fff;
+  font-size: 14px;
+}
+
+.accept-offer {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: gold;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.accept-offer:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px gold;
+}
+
+.control-panel h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #ffc107;
+  text-align: center;
+  font-size: 20px;
+}
+
+.control-section {
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #363636;
+  border-radius: 8px;
+  border-left: 3px solid #ffc107;
+}
+
+.control-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  color: #aaa;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.label-icon {
+  font-size: 18px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.control-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+  background-color: #444;
+  border: 1px solid #555;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.control-btn:hover:not(:disabled) {
+  background-color: #555;
+  transform: translateY(-2px);
+}
+
+.control-btn.active {
+  background-color: #ffc107;
+  color: #333;
+  border-color: #ffca2c;
+  box-shadow: 0 0 15px #ffc107;
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  font-size: 20px;
+}
+
+.btn-label {
+  font-size: 11px;
+}
+
+.slider-container {
+  padding: 10px 0;
+}
+
+.css-slider {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  background: linear-gradient(90deg, #ff4444 0%, #ffc107 50%, #4caf50 100%);
+  border-radius: 3px;
+  outline: none;
+  margin-bottom: 15px;
+}
+
+.css-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ffc107;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s;
+}
+
+.css-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background: #ffc107;
+}
+
+.css-slider:disabled::-webkit-slider-thumb {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.slider-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  font-size: 10px;
+  color: #888;
+  min-width: 50px;
+}
+
+.slider-label:hover {
+  background-color: #404040;
+  color: #fff;
+}
+
+.slider-label.active {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.label-icon-small {
+  font-size: 14px;
+}
+
+.label-text {
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+/* Прогресс */
+.progress-indicator {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #363636;
+  border-radius: 8px;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #444;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50, #8bc34a);
+  transition: width 0.3s ease;
+  border-radius: 4px;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.status.success {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+/* Подсказки */
+.hint-message {
+  padding: 12px;
+  background-color: #363636;
+  border-left: 4px solid #ffc107;
+  border-radius: 4px;
+  margin: 15px 0;
+  color: #ddd;
+  font-size: 14px;
+}
+
+.hint-message.success {
+  border-left-color: #4caf50;
+  background-color: #1e3a2a;
+  color: #fff;
+}
+
+.reset-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.reset-btn:hover:not(:disabled) {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.reset-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .game-play-area {
+    flex-direction: column;
+  }
+
+  .button-group {
+    flex-wrap: wrap;
+  }
+
+  .control-btn {
+    min-width: 80px;
+  }
+
+  .slider-labels {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+}
+
+.Map {
+  background-image: url('./assets/map.svg');
+  height: 1080px;
+  width: 100%;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Стили для маркера */
+.quest-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 2000;
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+  will-change: top, left;
+}
+
+.marker-square {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 3px solid gold;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: float 3s ease-in-out infinite;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.marker-text {
+  font-size: 30px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.quest-marker.boss-position .marker-square {
+  border-color: red;
+  background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+  animation: bossPulse 1s infinite;
+}
+
+@keyframes bossPulse {
+  0% {
+    transform: scale(1);
+    border-color: red;
+    box-shadow: 0 0 20px red;
+  }
+  50% {
+    transform: scale(1.2);
+    border-color: darkred;
+    box-shadow: 0 0 40px darkred;
+  }
+  100% {
+    transform: scale(1);
+    border-color: red;
+    box-shadow: 0 0 20px red;
+  }
+}
+
+/* Стили для кнопок заданий */
+.bt-1, .bt-2, .bt-3, .bt-4, .bt-5, .bt-6, .bt-7, .bt-8, .bt-9 {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+}
+
+.bt-1:hover:not(.disabled),
+.bt-2:hover:not(.disabled),
+.bt-3:hover:not(.disabled),
+.bt-4:hover:not(.disabled),
+.bt-5:hover:not(.disabled),
+.bt-6:hover:not(.disabled),
+.bt-7:hover:not(.disabled),
+.bt-8:hover:not(.disabled),
+.bt-9:hover:not(.disabled) {
+  transform: translate(-50%, -50%) scale(1.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+}
+
+/* Стили для текущей цели */
+.current-target {
+  animation: targetPulse 1.5s infinite;
+  border: 3px solid gold !important;
+  box-shadow: 0 0 20px gold !important;
+  transform: translate(-50%, -50%) scale(1.1);
+  z-index: 2500 !important;
+  opacity: 1 !important;
+}
+
+@keyframes targetPulse {
+  0% {
+    box-shadow: 0 0 0 0 gold;
+  }
+  70% {
+    box-shadow: 0 0 20px 10px gold;
+  }
+  100% {
+    box-shadow: 0 0 0 0 gold;
+  }
+}
+
+/* Стили для заблокированных кнопок */
+.bt-1.disabled,
+.bt-2.disabled,
+.bt-3.disabled,
+.bt-4.disabled,
+.bt-5.disabled,
+.bt-6.disabled,
+.bt-7.disabled,
+.bt-8.disabled,
+.bt-9.disabled {
+  opacity: 0;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: grayscale(100%);
+}
+
+/* Стили для галочек на кнопках */
+.button-check {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 25px;
+  height: 25px;
+  background-color: gold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: green;
+  font-weight: bold;
+  font-size: 16px;
+  animation: checkmarkAppear 0.3s ease-out;
+  border: 2px solid white;
+  z-index: 1600;
+}
+
+@keyframes checkmarkAppear {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+/* Стартовая кнопка */
+.start-btn {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  border: 4px solid gold;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  animation: startPulse 2s infinite;
+  z-index: 1800;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+}
+
+.start-btn:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+}
+
+@keyframes startPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+}
+
+/* Стили для выбора пути */
+.path-selection-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+.path-selection-modal {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 800px;
+  width: 90%;
+  color: white;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 2px solid gold;
+}
+
+.path-selection-modal h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: gold;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.path-buttons {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.path-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.path-btn:hover {
+  transform: translateY(-10px);
+  border-color: gold;
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.path-btn.path1:hover {
+  border-color: #ff6b6b;
+}
+
+.path-btn.path2:hover {
+  border-color: #4ecdc4;
+}
+
+.path-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.path-info {
+  text-align: center;
+}
+
+.path-info h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: gold;
+}
+
+.path-info p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.path-info small {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.reset-path-btn {
+  width: 100%;
+  padding: 15px;
+  background: rgba(220, 53, 69, 0.8);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.reset-path-btn:hover {
+  background: rgb(220, 53, 69);
+  transform: scale(1.02);
+}
+
+/* Информация о пути */
+.path-info-display {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid gold;
+}
+
+.path-info-display p {
+  margin: 0;
+  color: gold;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.reset-path-small {
+  padding: 8px 15px;
+  background: rgba(220, 53, 69, 0.8);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+  font-weight: bold;
+}
+
+.reset-path-small:hover {
+  background: rgb(220, 53, 69);
+  transform: scale(1.05);
+}
+
+/* Адаптация под мобильные */
+@media (max-width: 768px) {
   .path-buttons {
     flex-direction: column;
   }
@@ -558,12 +1215,6 @@
   
   .path-btn {
     padding: 20px;
-  }
-
-  .path-info-display {
-    flex-direction: column;
-    text-align: center;
-    gap: 10px;
   }
   
   .start-btn {
@@ -582,7 +1233,6 @@
   }
   
   .bt-1, .bt-2, .bt-3, .bt-4, .bt-5, .bt-6, .bt-7, .bt-8, .bt-9 {
-    opacity: 0;
     width: 40px;
     height: 40px;
     font-size: 16px;
